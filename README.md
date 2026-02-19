@@ -10,11 +10,11 @@ Compute points on the braid stack $`M(β,γ)`$ for all unipotent classes $`γ`$ 
 
 - `interval_reps` 
 
-Determines the unipotent classes $`γ1`$ and $`γ2`$ such that $`\{ γ \ \text{such that}\ M(β,γ)\ \text{is non-empty} \} = [γ1, γ2]`$.
+Determines the unipotent classes $`γ_1`$ and $`γ_2`$ such that $`\{ γ \ \text{such that}\ M(β,γ)\ \text{is non-empty} \} = [γ_1, γ_2]`$ in the poset of unipotent orbits.
 
 - `count_points_unique` 
 
-Given the class $`γ1`$ as in the previous function, return a vector containing the count $`|M(β,γ1)^F|`$.
+Given the class $`γ_1`$ as in the previous function, return a vector containing the count $`|M(β,γ_1)^F|`$.
 
 
 ## Getting started
