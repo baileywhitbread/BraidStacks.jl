@@ -82,6 +82,70 @@ julia> count_points_unique(G,[1,2],3)
 1-element Vector{Any}:
  1
 
+julia> G=coxgroup(:E,7)
+E₇
+
+julia> count_points(G,[4,2,7,6,5,4,3,2,1],5)
+The group is G = E₇
+The braid is β = b₄b₂b₃b₅b₄b₃b₁b₆b₅b₄b₂b₃b₁b₄b₃b₅b₄b₂b₆b₅b₇b₆b₅b₄b₂b₃b₁b₄b₃b₅b₄b₂b₆b₅b₄b₃b₁b₇b₆b₅b₄b₂b₃b₄b₅
+┌─────────┬──────────────────┐
+│γ ⊆ G    │        |M(β,γ)^F|│
+├─────────┼──────────────────┤
+│E₇       │               x³⁸│
+│E₇(a₁)   │               x³⁶│
+│E₇(a₂)   │       x²⁶Φ₁Φ₂Φ₄Φ₈│
+│E₆       │           x²⁶Φ₄Φ₈│
+│E₇(a₃)   │       x²⁴Φ₁Φ₂Φ₄Φ₈│
+│E₆(a₁)   │    (x⁸+x⁴-1)x²⁰Φ₄│
+│D₆       │           x²⁴Φ₄Φ₈│
+│E₇(a₄)   │       x²⁰Φ₁Φ₂Φ₄Φ₈│
+│A₆       │           x²⁰Φ₄Φ₈│
+│D₅+A₁    │    (x⁶+x²-1)x¹⁸Φ₄│
+│D₆(a₁)   │    (x⁶+x²-1)x¹⁸Φ₄│
+│E₇(a₅)   │(x⁶+x²-1)x¹⁴Φ₁Φ₂Φ₄│
+│D₅       │    (x⁴+x²+2)x¹⁸Φ₄│
+│D₆(a₂)   │(x⁴+x²+2)x¹⁴Φ₁Φ₂Φ₄│
+│E₆(a₃)   │(x⁴+x²+2)x¹⁴Φ₁Φ₂Φ₄│
+│A₅′      │    (x⁴+x²+2)x¹⁴Φ₄│
+│D₅(a₁)+A₁│(x⁸+x⁴-2x²+1)x¹⁰Φ₄│
+│A₅+A₁    │    (x⁶+x²-1)x¹²Φ₄│
+│A₄+A₂    │    (x⁶+x²-1)x¹⁰Φ₄│
+│A₅″      │             x¹²Φ₄│
+│D₅(a₁)   │ (x⁶+x⁴+x²-2)x¹⁰Φ₄│
+│D₄+A₁    │    (x⁶+x⁴+x²-1)x⁸│
+│A₄+A₁    │(x⁶+2x⁴+2x²-1)x⁸Φ₄│
+│D₄       │                x⁸│
+│A₃+A₂+A₁ │      x⁴Φ₁Φ₂Φ₃Φ₄Φ₆│
+│A₄       │             x⁸Φ₄²│
+│A₃+A₂    │             x⁶Φ₄²│
+│D₄(a₁)+A₁│                x⁸│
+│D₄(a₁)   │          x²Φ₁Φ₂Φ₄│
+│A₃+2A₁   │              x⁴Φ₄│
+│(A₃+A₁)′ │              x²Φ₄│
+│(A₃+A₁)″ │                 0│
+│2A₂+A₁   │                Φ₄│
+│2A₂      │                 0│
+│A₃       │                 0│
+│A₂+3A₁   │                 0│
+│A₂+2A₁   │                 0│
+│A₂+A₁    │                 0│
+│4A₁      │                 0│
+│A₂       │                 0│
+│3A₁″     │                 0│
+│3A₁′     │                 0│
+│2A₁      │                 0│
+│A₁       │                 0│
+│1        │                 0│
+└─────────┴──────────────────┘
+
+julia> interval_reps(G,[4,2,7,6,5,4,3,2,1],5;table=false)
+1-element Vector{Tuple{UnipotentClass, UnipotentClass}}:
+ (UnipotentClass(2A₂+A₁), UnipotentClass(E₇))
+
+julia> count_points_unique(G,[4,2,7,6,5,4,3,2,1],5)
+1-element Vector{Any}:
+ q²+1
+
 julia>
 ```
 
