@@ -4,15 +4,30 @@ Tools to compute the number of points on braid stacks. We heavily rely on Jean M
 
 Tools offered:
 
-- `count_points` 
+- `count_points(G,vect,d)` 
 
-Compute points on the braid stack $`M(β,γ)`$ for all unipotent classes $`γ`$ in $`G`$.
+Compute points on the braid stack $`M(β,γ)`$ for all unipotent classes $`γ`$ in $`G`$. Here, $`β`$ is defined by `(G,vect,d)` in the following manner.
 
-- `interval_reps` 
+Input: 
+	
+	- `G`: 	a finite reductive group object.
+	- `vect`: a vector of indices of braid group generators which defines the intermediate positive braid. 
+	- `d`: 	an integer exponent applied to the intermediate positive braid defined by vect to obtain the final positive braid.
+	
+	Options:
+	
+	- `double_check`: if the braid is periodic, compute Hecke algebra character values directly and check agreement
+	- `output`: return the point counts as a vector of pairs (γ,|M(β,γ)^F|)
+	- `table`: print human-readable table of the point counts
+	
+	For example, `count_points(G = coxgroup(:G,2), vect = [1,2], d = 3)`
+	corresponds to the choice $`G=G_2`$ and $`β= (\widetilde{s_1s_2})^3`$.
+
+- `interval_reps(G,vect,d)` 
 
 Determines the unipotent classes $`γ_1`$ and $`γ_2`$ such that $`\{ γ \ \text{such that}\ M(β,γ)\ \text{is non-empty} \} = [γ_1, γ_2]`$ in the poset of unipotent orbits.
 
-- `count_points_unique` 
+- `count_points_unique(G,vect,d)` 
 
 Given the class $`γ_1`$ as in the previous function, return a vector containing the count $`|M(β,γ_1)^F|`$.
 
