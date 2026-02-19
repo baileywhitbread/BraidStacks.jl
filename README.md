@@ -10,7 +10,7 @@ Compute points on the braid stack $`M(β,γ)`$ for all unipotent classes $`γ`$ 
 
 - `interval_reps` 
 
-Determines the unipotent classes $`γ1`$ and $`γ2`$ such that $`\{ γ \ \text{such that}\ M(β,γ) non-empty \} = [γ1, γ2]`$.
+Determines the unipotent classes $`γ1`$ and $`γ2`$ such that $`\{ γ \ \text{such that}\ M(β,γ)\ \text{is non-empty} \} = [γ1, γ2]`$.
 
 - `count_points_unique` 
 
