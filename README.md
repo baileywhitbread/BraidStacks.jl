@@ -81,7 +81,11 @@ The braid is β = b₁b₂b₁b₂b₁b₂
 julia> count_points_unique(G,[1,2],3)
 1-element Vector{Any}:
  1
+```
 
+Below is an example for the slope $`\nu=d/m=5/14`$ and the group $`G=E_7`$. In this case, the braid is $`β= (\widetilde{s_4s_2\mathfrak{c}^{-1}})^5`$.
+
+```julia
 julia> G=coxgroup(:E,7)
 E₇
 
