@@ -14,14 +14,13 @@ Input:
 	- `vect`: a vector of indices of braid group generators which defines the intermediate positive braid. 
 	- `d`: 	an integer exponent applied to the intermediate positive braid defined by vect to obtain the final positive braid.
 	
-	Options:
+Options:
 	
 	- `double_check`: if the braid is periodic, compute Hecke algebra character values directly and check agreement
 	- `output`: return the point counts as a vector of pairs (γ,|M(β,γ)^F|)
 	- `table`: print human-readable table of the point counts
 	
-	For example, `count_points(G = coxgroup(:G,2), vect = [1,2], d = 3)`
-	corresponds to the choice $`G=G_2`$ and $`β= (\widetilde{s_1s_2})^3`$.
+For example, `count_points(G = coxgroup(:G,2), vect = [1,2], d = 3)` corresponds to the choice $`G=G_2`$ and $`β= (\widetilde{s_1s_2})^3`$.
 
 - `interval_reps(G,vect,d)` 
 
