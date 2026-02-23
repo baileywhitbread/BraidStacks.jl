@@ -42,6 +42,7 @@ include("braid_stacks.jl")
 
 
 ## Examples
+Additional detail is given as comments in the `braid_stacks.jl` file. 
 
 ```julia
 julia> include("braid_stacks.jl")

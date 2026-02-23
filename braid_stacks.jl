@@ -2,8 +2,9 @@ using Chevie
 
 # In this file, you will find:
 # 1. Some functions for convenience
-# 2. Functions for the user
+# 2. Functions for the user: count_points, interval_reps, count_points_unique.
 # 3. A list of Weyl group elements
+# 4. A worked example 
 
 ##################################
 # Some functions for convenience #
@@ -299,3 +300,16 @@ end
 # m = 3, w = c^10
 # m = 2, w = c^15
 
+####################
+# A worked example #
+####################
+
+# Example: determine O_ν for G = F4 and ν = 5/8.
+
+# In the list above, we have w = c23 = 123423 when G = F4 and m = 8.
+
+# Use the command count_points(coxgroup(:F,4),[1,2,3,4,2,3],5).
+
+# One visually inspects the table and finds O_ν = \widetilde{A_1} (this is hard, unless you have the poset memorised!).
+
+# To automatically find O_ν, instead use interval_reps(coxgroup(:F,4),[1,2,3,4,2,3],5). 
