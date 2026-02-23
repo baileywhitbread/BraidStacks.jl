@@ -1,5 +1,10 @@
 using Chevie
 
+# In this file, you will find:
+# 1. Some functions for convenience
+# 2. Functions for the user
+# 3. A list of Weyl group elements
+
 ##################################
 # Some functions for convenience #
 ##################################
@@ -228,3 +233,69 @@ function count_points_unique(G,vect,d)
 	
 	return polynomials
 end
+
+
+#################################
+# A list of Weyl group elements #
+#################################
+
+# To solve the isoclinic Deligne--Simpson problem for exceptional groups, one studies the braid stack M(β,γ) for where β = βν for each slope ν. 
+# Such a slope is of the form ν = d/m where m is a regular number for G and d = 1,2,...,m-1 is coprime to m.
+
+# Given ν, the braid βν equals the dth power of the positive lift of w = w(m).
+# The following is a list of such w for each regular number m of each exceptional group G. 
+
+# When m is elliptic, w is determined by using CHEVIE commands like classinfo(coxgroup(:G,2)) 
+# and searching for minimal length representatives of order m and length |\Phi|/m.
+
+# When m is not elliptic, w is determined in the appendix of:
+# Broué, Michel; Michel, Jean. 
+# Sur certains éléments réguliers des groupes de Weyl et les variétés de Deligne-Lusztig associées.(French)
+# [Some regular elements of Weyl groups and the associated Deligne-Lusztig varieties]
+# Finite reductive groups (Luminy, 1994), 73–139. Progr. Math., 141 
+
+# G = G2
+# m = 6, w = 12 = c
+# m = 3, w = c^2
+# m = 2, w = c^3
+
+# G = F4
+# m = 12, w = 1234 = c
+# m = 8, w = c23
+# m = 6, w = c^2
+# m = 4, w = c^3
+# m = 3, w = c^4
+# m = 2, w = c^6
+
+# G = E6
+# m = 12, w = 123456 = c
+# m = 9, w = 13432456
+# m = 8, w = 354163542 = x
+# m = 6, w = c^2
+# m = 4, w = x^2
+# m = 3, w = c^4
+# m = 2, w = x^4
+
+# G = E7
+# m = 18, w = 1234567 = c
+# m = 14, w = 42c^(-1)
+# m = 9, w = (1462357)^2 = y^2
+# m = 7, w = (134247654)^2
+# m = 6, w = c^3
+# m = 3, w = y^6
+# m = 2, w = c^9
+
+# G = E8
+# m = 30, w = 12345678 = c
+# m = 24, w = 34c
+# m = 20, w = 4354c
+# m = 15, w = c^2
+# m = 12, w = 2345c^2
+# m = 10, w = c^3
+# m = 8, w = 123456c^3 
+# m = 6, w = c^5
+# m = 5, w = c^6
+# m = 4, w = (2314)^2 54234 56542 34576 54876 c^4
+# m = 3, w = c^10
+# m = 2, w = c^15
+
