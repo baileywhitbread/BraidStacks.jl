@@ -53,9 +53,15 @@ The braid is β = b₁b₂b₁b₂
 
 ## A list of Weyl group elements
 
-To solve the isoclinic Deligne--Simpson problem, one studies the braid stack $M(β,γ)$. To do so, each slope $\nu$ gives rise to a braid $\beta_\nu$. As mentioned in the preprint, writing $\nu d/m$ in lowest terms with $m$ a regular number for $W$, the braid looks like $\widetilde{w}^d$ for an $m$-Springer element $w\in W$. (Here, $\widetilde{w}$ denotes the lift of $w$ to the positive braid $\widetilde{w}$ in the positive braid monoid.)
+To solve the isoclinic Deligne--Simpson problem, one studies the braid stack $M(β,γ)$. To do so, each slope $\nu$ gives rise to a braid $\beta_\nu$.  
 
-Below we give lists of such w for each regular number $m$ of each exceptional group $G$. When $m$ is elliptic, it will be of minimal length in its conjugacy class. Therefore we can use Chevie commands such as `classinfo(coxgroup(:G,2))` to find $w$. Specifically, $w$ has order $m$ and length $|\Phi|/m$.
+Writing $\nu = d/m$ in lowest terms with $m$ a regular number for $W$, the braid looks like $\widetilde{w}^d$ for an $m$-Springer element $w\in W$.  
+
+(Here, $\widetilde{w}$ denotes the lift of $w$ to the positive braid $\widetilde{w}$ in the positive braid monoid.)
+
+Below we give lists of such w for each regular number $m$ of each exceptional group $G$.  
+
+When $m$ is elliptic, it will be of minimal length in its conjugacy class. Therefore we can use Chevie commands such as `classinfo(coxgroup(:G,2))` to find $w$. Specifically, $w$ has order $m$ and length $|\Phi|/m$.
 
 When $m$ is not elliptic, $w$ is determined in the appendix of:  
 
@@ -140,6 +146,35 @@ Therefore we make the function call
 count_points(coxgroup(:F,4),[1,2,3,4,2,3],5)
 ```
 
+(The last argument is $d=5$ because $\nu = d/m = 5/8$.)
+
+This prints the following:
+
+```julia
+The group is G = F₄
+The braid is β = b₁b₂b₁b₃b₂b₁b₃b₂b₃b₄b₃b₂b₁b₃b₂b₃b₄b₃b₂b₁b₃b₂b₃b₄b₁b₂b₃b₂b₄b₃
+┌──────┬───────────────┐
+│γ ⊆ G │     |M(β,γ)^F|│
+├──────┼───────────────┤
+│1     │              0│
+│A₁    │              0│
+│Ã₁    │              1│
+│A₁+Ã₁ │          x²Φ₄²│
+│Ã₂    │           x⁶Φ₄│
+│A₂    │           x⁶Φ₄│
+│A₂+Ã₁ │  (x⁶+x²-1)x⁴Φ₄│
+│Ã₂+A₁ │  (x⁶+x²-1)x⁶Φ₄│
+│B₂    │(x⁶+x⁴+2x²+1)x⁸│
+│C₃(a₁)│  (x⁶+x²-1)x⁸Φ₄│
+│F₄(a₃)│    x¹⁰Φ₁Φ₂Φ₄Φ₈│
+│C₃    │        x¹⁴Φ₄Φ₈│
+│B₃    │        x¹⁴Φ₄Φ₈│
+│F₄(a₂)│    x¹⁴Φ₁Φ₂Φ₄Φ₈│
+│F₄(a₁)│            x²⁴│
+│F₄    │            x²⁶│
+└──────┴───────────────┘
+```
+
 One visually inspects the table and finds $O_\nu = \widetilde{A_1}$.  
 
 (This is often difficult to determine, unless you have the poset memorised!)  
@@ -149,4 +184,13 @@ To automatically find $O_\nu$, instead use
 ```julia
 interval_reps(coxgroup(:F,4),[1,2,3,4,2,3],5)
 ```
+
+This prints the table above and returns the tuple
+
+```julia
+(UnipotentClass(Ã₁), UnipotentClass(F₄))
+```
+
+
+
 
