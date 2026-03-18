@@ -64,19 +64,19 @@ Sur certains éléments réguliers des groupes de Weyl et les variétés de Deli
 [Some regular elements of Weyl groups and the associated Deligne-Lusztig varieties]  
 Finite reductive groups (Luminy, 1994), 73–139. Progr. Math., 141  
 
-Here is the list:
+Here is the list:  
 
-### G = G2
+### $G = G_2$
 
-| m | w |
+| $m$ | $w$ |
 | --- | --- |
 | 6 | `12 = c` |
 | 3 | `c^2` |
 | 2 | `c^3` |
 
-### G = F4
+### $G = F_4$
 
-| m | w |
+| $m$ | $w$ |
 | --- | --- |
 | 12 | `1234 = c` |
 | 8 | `c23` |
@@ -85,9 +85,9 @@ Here is the list:
 | 3 | `c^4` |
 | 2 | `c^6` |
 
-### G = E6
+### $G = E_6$
 
-| m | w |
+| $m$ | $w$ |
 | --- | --- |
 | 12 | `123456 = c` |
 | 9 | `13432456` |
@@ -97,9 +97,9 @@ Here is the list:
 | 3 | `c^4` |
 | 2 | `x^4` |
 
-### G = E7
+### $G = E_7$
 
-| m | w |
+| $m$ | $w$ |
 | --- | --- |
 | 18 | `1234567 = c` |
 | 14 | `42c^(-1)` |
@@ -109,9 +109,9 @@ Here is the list:
 | 3 | `y^6` |
 | 2 | `c^9` |
 
-### G = E8
+### $G = E_8$
 
-| m | w |
+| $m$ | $w$ |
 | --- | --- |
 | 30 | `12345678 = c` |
 | 24 | `34c` |
