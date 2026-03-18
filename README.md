@@ -11,18 +11,18 @@ Tools to compute the number of points on braid stacks. We heavily rely on Jean M
 ```julia
 using Pkg; Pkg.add("Chevie")
 ```
-3. Place the braid_stacks.jl file in Julia's bin folder. In Julia's command-line, run the below:
+
+3. Copy-paste the script into Julia's command line.  
+Alternatively, place `braid_stacks.jl` in Julia's bin folder then run:
 
 ```julia
 include("braid_stacks.jl")
 ```
 
-3. (Alternative to step 3 above). Copy-paste the script into Julia's command line.
-
 
 ## Warm up example
 
-Goal: Use `braid_stacks.jl` to determine the number of points on the braid stack $M(β,γ)$ when $G = G_2$ and $β = (b_1b_2)^2$.  
+Goal: Use `braid_stacks.jl` to determine the number of points on the braid stack $$M(β,γ)$$ for all $\gamma$ when $G = G_2$ and $β = (b_1b_2)^2$.  
 
 We make the function call
 
@@ -53,23 +53,13 @@ The braid is β = b₁b₂b₁b₂
 
 ## Using the code for the isoclinic Deligne--Simpson problem
 
-We can study the isoclinic Deligne--Simpson problem by studying the point-counts of the braid stack $M(β,γ)$.
+We can study the isoclinic Deligne--Simpson problem by studying the point-counts of the braid stack $M(β,γ)$. Briefly, each slope $\nu$ gives rise to a braid $\beta_\nu$. Writing $\nu = d/m$ in lowest terms with $m$ a regular number for $W$, the braid looks like $$\beta_\nu = \widetilde{w}^d$$ for an $m$-Springer element $w\in W$, where $\widetilde{w}$ is the positive lift of $w$ to the braid group.
 
-Briefly, each slope $\nu$ gives rise to a braid $\beta_\nu$.  
+At the bottom of this readme, we give a detailed example of how to study the isoclinic Deligne--Simpson problem using the code. Beforehand, we give the relevant Weyl group elements $w$ for each regular number $m$ of each exceptional group $G$.  
 
-Writing $\nu = d/m$ in lowest terms with $m$ a regular number for $W$, the braid looks like $\widetilde{w}^d$ for an $m$-Springer element $w\in W$.  
+When $m$ is regular elliptic, the element $w$ is of minimal length in its conjugacy class. We can use Chevie commands such as `classinfo(coxgroup(:G,2))` to find $w$, which has order $m$ and length $|\Phi|/m$.
 
-(Here, $\widetilde{w}$ denotes the lift of $w$ to the positive braid $\widetilde{w}$ in the positive braid monoid.)
-
-We give a detailed example of how to study the isoclinic Deligne--Simpson problem using the code at the bottom of this readme.
-
-## A list of Weyl group elements
-
-Below we give lists of the relevant Weyl group elements $w$ for each regular number $m$ of each exceptional group $G$.  
-
-When $m$ is elliptic, it will be of minimal length in its conjugacy class. Therefore we can use Chevie commands such as `classinfo(coxgroup(:G,2))` to find $w$. Specifically, $w$ has order $m$ and length $|\Phi|/m$.
-
-When $m$ is not elliptic, $w$ is determined in the appendix of:  
+When $m$ is regular but not elliptic, $w$ is determined in the appendix of:  
 
 >Broué, Michel; Michel, Jean.  
 Sur certains éléments réguliers des groupes de Weyl et les variétés de Deligne-Lusztig associées.(French)  
@@ -82,71 +72,71 @@ Here is the list:
 
 | $m$ | $w$ |
 | --- | --- |
-| 6 | `12 = c` |
-| 3 | `c^2` |
-| 2 | `c^3` |
+| $6$ | $12 = c$ |
+| $3$ | $c^2$ |
+| $2$ | $c^3$ |
 
 ### $G = F_4$
 
 | $m$ | $w$ |
 | --- | --- |
-| 12 | `1234 = c` |
-| 8 | `c23` |
-| 6 | `c^2` |
-| 4 | `c^3` |
-| 3 | `c^4` |
-| 2 | `c^6` |
+| $12$ | $1234 = c$ |
+| $8$ | $c23$ |
+| $6$ | $c^2$ |
+| $4$ | $c^3$ |
+| $3$ | $c^4$ |
+| $2$ | $c^6$ |
 
 ### $G = E_6$
 
 | $m$ | $w$ |
 | --- | --- |
-| 12 | `123456 = c` |
-| 9 | `13432456` |
-| 8 | `354163542 = x` |
-| 6 | `c^2` |
-| 4 | `x^2` |
-| 3 | `c^4` |
-| 2 | `x^4` |
+| $12$ | $123456 = c$ |
+| $9$ | $13432456$ |
+| $8$ | $354163542 = x$ |
+| $6$ | $c^2$ |
+| $4$ | $x^2$ |
+| $3$ | $c^4$ |
+| $2$ | $x^4$ |
 
 ### $G = E_7$
 
 | $m$ | $w$ |
 | --- | --- |
-| 18 | `1234567 = c` |
-| 14 | `42c^(-1)` |
-| 9 | `(1462357)^2 = y^2` |
-| 7 | `(134247654)^2` |
-| 6 | `c^3` |
-| 3 | `y^6` |
-| 2 | `c^9` |
+| $18$ | $1234567 = c$ |
+| $14$ | $42c^{-1}$ |
+| $9$ | $(1462357)^2 = y^2$ |
+| $7$ | $(134247654)^2$ |
+| $6$ | $c^3$ |
+| $3$ | $y^6$ |
+| $2$ | $c^9$ |
 
 ### $G = E_8$
 
 | $m$ | $w$ |
 | --- | --- |
-| 30 | `12345678 = c` |
-| 24 | `34c` |
-| 20 | `4354c` |
-| 15 | `c^2` |
-| 12 | `2345c^2` |
-| 10 | `c^3` |
-| 8 | `123456c^3` |
-| 6 | `c^5` |
-| 5 | `c^6` |
-| 4 | `(2314)^2 54234 56542 34576 54876 c^4` |
-| 3 | `c^10` |
-| 2 | `c^15` |
+| $30$ | $12345678 = c$ |
+| $24$ | $34c$ |
+| $20$ | $4354c$ |
+| $15$ | $c^2$ |
+| $12$ | $2345c^2$ |
+| $10$ | $c^3$ |
+| $8$ | $123456c^3$ |
+| $6$ | $c^5$ |
+| $5$ | $c^6$ |
+| $4$ | $(2314)^2 54234 56542 34576 54876 c^4$ |
+| $3$ | $c^{10}$ |
+| $2$ | $c^{15}$ |
 
 
 
 ## Examples using the table
 
-Goal: Use `braid_stacks.jl` to determine $O_\nu$ for $G = F_4$ and $\nu = 5/8$.  
+Goal: Use `braid_stacks.jl` to compute the number of points on the braid stack $$M(\beta_\nu,\gamma)$$ for all unipotent classes $\gamma$ when $G = F_4$ and $\nu = 5/8$.  
 
-In the list above, we have $w = c23 = 123423$ when $G = F_4$ and $m = 8$. 
+In the list above, we have $w = c23 = 123423$ when $G = F_4$ and $m = 8$.  
 
-Therefore we make the function call
+This means $\beta_\nu = (c23)^5 = (123423)^5$. Therefore we make the function call
 
 ```julia
 count_points(coxgroup(:F,4),[1,2,3,4,2,3],5)
@@ -181,9 +171,11 @@ The braid is β = b₁b₂b₁b₃b₂b₁b₃b₂b₃b₄b₃b₂b₁b₃b₂b�
 └──────┴───────────────┘
 ```
 
-One visually inspects the table and finds $O_\nu = \widetilde{A_1}$.  
+One visually inspects the table and finds $M(\beta_\nu,\gamma)\neq \emptyset$ if and only if $\gamma\geq \widetilde{A_1}$.   
 
 (This is often difficult to determine, unless you have the poset memorised!)  
+
+This means, in the notation of Jakob and Yun, we have $O_\nu = \widetilde{A_1}$ when $G=F_4$ and $\nu = 5/8$.  
 
 To automatically find $O_\nu$, instead use 
 
