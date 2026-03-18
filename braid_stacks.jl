@@ -2,13 +2,24 @@ using Chevie
 
 # In this file, you will find:
 # 1. Some functions for convenience
-# 2. Functions for the user: count_points, interval_reps, count_points_unique.
-# 3. A list of Weyl group elements
-# 4. A worked example 
+# 2. Functions for the user
 
-##################################
-# Some functions for convenience #
-##################################
+#####################################
+# 1. Some functions for convenience #
+#####################################
+
+"""
+    subscript(n::Integer)
+
+Return n as a string written with subscript digits and sign.
+
+This is used when displaying Weyl group words and braid words in a compact, human-readable form.
+
+Example: subscript(123) returns the string "₁₂₃".
+
+subscript(-45) returns the string "₋₄₅".
+
+"""
 
 subscript(n::Integer) = replace(string(n),
     '-' => '₋',
@@ -16,26 +27,85 @@ subscript(n::Integer) = replace(string(n),
     '5' => '₅', '6' => '₆', '7' => '₇', '8' => '₈', '9' => '₉',
 )
 
+
+
+
+
+
+"""
+    weyl_wordstring(v::AbstractVector{<:Integer}; sep="")
+
+Format a vector of simple-reflection indices as a Weyl group word.
+
+Example: weyl_wordstring([1,2,3]) returns the string "s₁s₂s₃".
+
+weyl_wordstring([1,2,3]; sep="*") returns the string "s₁*s₂*s₃".
+
+"""
+
 weyl_wordstring(v::AbstractVector{<:Integer}; sep="") =
     isempty(v) ? "1" : join(("s" * subscript(i) for i in v), sep)
+
+
+
+
+
+
+
+"""
+    braid_wordstring(v::AbstractVector{<:Integer}; sep="")
+
+Format a vector of braid-generator indices as a positive braid word.
+
+The empty vector is displayed as "1". Use sep to insert a separator
+between adjacent generators.
+
+Example: braid_wordstring([1,2,3]) returns the string "b₁b₂b₃".
+
+braid_wordstring([1,2,3]; sep="*") returns the string "b₁*b₂*b₃".
+
+"""
 
 braid_wordstring(v::AbstractVector{<:Integer}; sep="") =
     isempty(v) ? "1" : join(("b" * subscript(i) for i in v), sep)
 
+
+
+
+
+
+
+"""
+    is_periodic(G, beta)
+
+Check whether beta = β is periodic in the positive braid monoid attached to G.
+
+Note β is an element of the positive braid monoid.
+The positive braid monoid is constructed using, for example, the command 
+B = BraidMonoid(G)
+and a positive braid is constructed using, for example, the command
+B([1,2])^3
+which is the braid β = b₁b₂b₁b₂b₁b₂.
+
+The function searches for coprime positive integers d and m such that
+β^m equals the dth power of the full twist. If successful, it returns
+(true, d//m), where d//m is the slope. Otherwise it returns
+(false, nothing).
+
+Note we only search up to m = the Coxeter number, because if beta 
+is periodic with slope d/m, then m divides the Coxeter number.
+
+Example: for G = G2, the braid β = (positive lift of s1 * s2)^3 
+is periodic with slope 1/2, because β^2 = full_twist. This means the function call
+is_periodic(coxgroup(:G,2), B(coxgroup(:G,2))([1,2])^3) 
+returns (true, 1//2).
+
+On the other hand, the braid β = b₁ is not periodic, so the function call
+is_periodic(coxgroup(:G,2), B(coxgroup(:G,2))([1])) 
+returns (false, nothing).
+
+"""
 function is_periodic(G,beta)
-	"""
-	Check if the braid beta is periodic, i.e., beta^m = full_twist^d, and returns slope d/m.
-	
-	Input: 
-	
-	- G: 	a finite reductive group object.
-	- beta:	a positive braid in the monoid of positive braids associated to G.
-	
-	Output:
-	
-	- A tuple (true, slope) or (false, nothing).
-	
-	"""
 	W = G
 	B = beta.M
 	full_twist = B(longest(W))^2
@@ -53,31 +123,66 @@ function is_periodic(G,beta)
     return false, nothing
 end
 
-##########################
-# Functions for the user #
-##########################
+
+
+
+
+
+
+
+
+
+
+
+
+#############################
+# 2. Functions for the user #
+#############################
+
+"""
+    count_points(G, vect, d; double_check=false, output=false, table=true)
+
+Compute the point counts |M(β,γ)^F| for each geometric unipotent classes γ in G.
+
+The braid β is defined as the dth power of the positive lift of the word encoded by vect.
+Specifically, if vect = [i₁, i₂, ..., iₖ] then β = (b_{i₁} b_{i₂} ... b_{iₖ})^d.
+
+# Arguments
+- G: a finite reductive group object.
+- vect: indices of braid generators defining the positive braid b_{i₁} b_{i₂} ... b_{iₖ}.
+- d: exponent applied to that braid to obtain β = (b_{i₁} b_{i₂} ... b_{iₖ})^d.
+
+# Keywords
+- double_check: when true AND the braid is periodic, recompute the Hecke
+  algebra character values directly and assert agreement.
+- output: when true, return the point counts as (class, count) pairs.
+- table: when true, print a human-readable table of the counts.
+
+# Returns
+Returns the vector of (class, count) pairs only when output=true;
+otherwise the function is used for its printed table.
+
+# Example: The function call
+
+count_points(coxgroup(:G,2), [1,2], 2)
+
+prints the following:
+
+The group is G = G₂
+The braid is β = b₁b₂b₁b₂
+┌──────┬──────────┐
+│γ ⊆ G │|M(β,γ)^F|│
+├──────┼──────────┤
+│1     │         0│
+│A₁    │         0│
+│Ã₁    │         0│
+│G₂(a₁)│         1│
+│G₂    │        x²│
+└──────┴──────────┘
+
+"""
 
 function count_points(G,vect,d; double_check=false, output=false, table=true)	
-	
-	"""
-	Compute points on the braid stack M(β,γ) for all unipotent classes γ in G
-	
-	Input: 
-	
-	- G: 	a finite reductive group object.
-	- vect: a vector of indices of braid group generators which defines the intermediate positive braid. 
-	- d: 	an integer exponent applied to the intermediate positive braid defined by vect to obtain the final positive braid.
-	
-	Options:
-	
-	- double_check: 	if the braid is periodic, compute Hecke algebra character values directly and check agreement
-	- output: 			return the point counts as a vector of pairs (γ,|M(β,γ)^F|)
-	- table: 			print human-readable table of the point counts
-	
-	For example, count_points(G = coxgroup(:G,2), vect = [1,2], d = 3) 
-	corresponds to the choice G = G2 and β = (positive lift of s1 * s2)^3.
-	"""
-
 	q = big(1) * Mvp(:q)
 	W = G
 	B = BraidMonoid(W)
@@ -115,7 +220,7 @@ function count_points(G,vect,d; double_check=false, output=false, table=true)
 	# |M(β,γ)^F| = (1/|G^F|) * sum_{g in γ^F} sum_{ϕ in Irr(W)} ρ_ϕ(g) * ϕ_q(braid)
 
 	ucl = UnipotentClasses(G)
-	uval = UnipotentValues(ucl;classes=true)
+	uval = UnipotentValues(ucl;classes=true).scalar
 	xt = XTable(ucl;classes=true)
 	centraliser_sizes_inverted = map(f -> 1//f,xt.centClass)
 	rational_unipotent_classes_TeX_names = map(label -> name(TeX(rio();class=label[2]),ucl.classes[label[1]]),xt.classes)
@@ -123,10 +228,10 @@ function count_points(G,vect,d; double_check=false, output=false, table=true)
 	
 	stack_counts = Array{Any}(nothing,length(rational_unipotent_classes_names),1)
 
-	for i in 1:length(uval.classes)
+	for i in 1:length(xt.classes) # number of rational unipotent classes
 		point_count = 0*q
-		for j in 1:length(H_char_vals)
-			point_count +=  H_char_vals[j] * uval.scalar[j,i]
+		for j in 1:length(H_char_vals) # number of principal unipotent characters
+			point_count +=  H_char_vals[j] * uval[j,i]
 		end
 		point_count *= centraliser_sizes_inverted[i]
 		stack_counts[i] = point_count
@@ -172,27 +277,59 @@ function count_points(G,vect,d; double_check=false, output=false, table=true)
 	end
 end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+    interval_reps(G, vect, d; table=true)
+
+Determine interval representatives (γ1, γ2) such that the
+unipotent classes γ with non-empty braid stack M(β,γ) form exactly
+the interval [γ1, γ2] in the poset of unipotent classes ordered by the closure relation.
+
+The arguments are the same as for count_points.
+
+# Keywords
+- table: display the table of point counts for reference (this is helpful when visually checking the result).
+
+# Returns
+A tuple (γ1, γ2) of unipotent classes, or nothing if the classes with non-empty braid stack do not form an interval.
+
+Example: The function call
+
+interval_reps(coxgroup(:G,2), [1,2], 2)
+
+returns the tuple (UnipotentClass(G₂(a₁)), UnipotentClass(G₂)) because 
+when G = G2 and β = (b₁b₂)^2, the point count |M(β,γ)^F| is non-zero if and only if 
+γ is in the interval [G₂(a₁), G₂] in the poset of unipotent classes of G₂.
+
+Another example: The function call
+
+interval_reps(coxgroup(:F,4), [1,2], 5) 
+
+returns the tuple (A1,F4). This example should be contrasted with 
+Jakob and Yun's paper arXiv:2301.10967v2. In this paper, 
+ν = d/m is a slope which determines a braid β_ν, and
+O_ν is alternate notation for the lower representative.
+In this case, G = F4 and ν = 5/6 yield the braid β_ν = (b₁b₂)^5.
+The function call above returning (A1,F4) agrees with the fact that 
+O_ν = A1 for G = F4 and ν = 5/6, as shown in Jakob-Yun's paper 
+(see Table 5 of arXiv:2301.10967v2). 
+
+"""
+
 function interval_reps(G,vect,d;table=true)
-
-	"""
-	Determines the unipotent classes γ1 and γ2 such that { γ : M(β,γ) non-empty } = [γ1, γ2].
-	
-	Input: see count_points
-	
-	Output: a vector of tuples (γ1,γ2)
-	
-	Options:
-	
-	- table: print human-readable table of the point counts
-
-	For example, interval_reps(G = coxgroup(:G,2), vect = [1,2], d = 5) returns 
-	a vector containing the tuple (A1,G2) because O_\nu = A1 when \nu = 5/6 
-	(see Jakob-Yun 2023 Table 2, arXiv:2301.10967v2).
-	
-	Note: this function should always return a vector containing exactly one tuple.
-	
-	"""
-	
 	ucl = UnipotentClasses(G)
 	classes = ucl.classes
 	P = ucl.orderclasses
@@ -210,20 +347,79 @@ function interval_reps(G,vect,d;table=true)
 		end
 	end
 
-	return interval_reps
+	if length(interval_reps) == 1
+		return interval_reps[1]
+	else
+		println("The conjugacy classes with non-zero point-count do not form an interval")
+		return nothing
+	end
 end
 
 
-function count_points_unique(G,vect,d)
 
-	"""
-	Given the class γ1 as in the previous function, return a vector containing the count |M(β,γ1)^F|
-	
-	"""
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+    count_points_lower(G, vect, d)
+
+Return the point count attached to the lower endpoint selected by interval_reps(G, vect, d).
+
+More precisely, interval_reps(G, vect, d) attempts to find an interval (γ1, γ2) in the poset 
+of unipotent classes such that M(β, γ) is non-empty exactly for γ in [γ1, γ2].
+
+This function then extracts the point count |M(β, γ1)^F| attached to the lower representative γ1.
+
+The arguments G, vect, and d determine the braid
+β = (b_{i_1} b_{i_2} ... b_{i_r})^d
+in the same way as in count_points and interval_reps.
+
+# Returns
+The polynomial |M(β,γ1)^F| corresponding to the lower endpoint γ1, provided interval_reps returns 
+a unique interval and count_points produces a unique count for that class.
+
+# Errors
+Throws an error if interval_reps returns nothing, meaning the classes with
+non-zero point count do not form a single interval.
+
+Throws an error if more than one polynomial is found for the lower representative.
+
+# Example: The function call
+
+interval_reps(coxgroup(:G,2), [1,2], 2)
+
+returns the tuple (UnipotentClass(G₂(a₁)), UnipotentClass(G₂)). 
+
+The lower representative is UnipotentClass(G₂(a₁)). 
+
+Then the function call
+
+count_points_lower(coxgroup(:G,2), [1,2], 2)
+
+returns the point-count |M(β, G₂(a₁))^F|, where β = (b₁b₂)^2.
+
+"""
+
+function count_points_lower(G,vect,d)
 	reps = interval_reps(G,vect,d;table=false)
 
-	unique_class = reps[1][1]
+	if reps == nothing
+		error("No lower representative")
+	end
+
+	unique_class = reps[1]
 	polynomials = Any[]
 	
 	for pair in count_points(G,vect,d;table=false,output=true)
@@ -232,84 +428,10 @@ function count_points_unique(G,vect,d)
 		end
 	end
 	
-	return polynomials
+	if length(polynomials) == 1
+		return polynomials[1]
+	else
+		error("More than one polynomial/lower representative")
+	end
 end
 
-
-#################################
-# A list of Weyl group elements #
-#################################
-
-# To solve the isoclinic Deligne--Simpson problem for exceptional groups, one studies the braid stack M(β,γ) for where β = βν for each slope ν. 
-# Such a slope is of the form ν = d/m where m is a regular number for G and d = 1,2,...,m-1 is coprime to m.
-
-# Given ν, the braid βν equals the dth power of the positive lift of w = w(m).
-# The following is a list of such w for each regular number m of each exceptional group G. 
-
-# When m is elliptic, w is determined by using CHEVIE commands like classinfo(coxgroup(:G,2)) 
-# and searching for minimal length representatives of order m and length |\Phi|/m.
-
-# When m is not elliptic, w is determined in the appendix of:
-# Broué, Michel; Michel, Jean. 
-# Sur certains éléments réguliers des groupes de Weyl et les variétés de Deligne-Lusztig associées.(French)
-# [Some regular elements of Weyl groups and the associated Deligne-Lusztig varieties]
-# Finite reductive groups (Luminy, 1994), 73–139. Progr. Math., 141 
-
-# G = G2
-# m = 6, w = 12 = c
-# m = 3, w = c^2
-# m = 2, w = c^3
-
-# G = F4
-# m = 12, w = 1234 = c
-# m = 8, w = c23
-# m = 6, w = c^2
-# m = 4, w = c^3
-# m = 3, w = c^4
-# m = 2, w = c^6
-
-# G = E6
-# m = 12, w = 123456 = c
-# m = 9, w = 13432456
-# m = 8, w = 354163542 = x
-# m = 6, w = c^2
-# m = 4, w = x^2
-# m = 3, w = c^4
-# m = 2, w = x^4
-
-# G = E7
-# m = 18, w = 1234567 = c
-# m = 14, w = 42c^(-1)
-# m = 9, w = (1462357)^2 = y^2
-# m = 7, w = (134247654)^2
-# m = 6, w = c^3
-# m = 3, w = y^6
-# m = 2, w = c^9
-
-# G = E8
-# m = 30, w = 12345678 = c
-# m = 24, w = 34c
-# m = 20, w = 4354c
-# m = 15, w = c^2
-# m = 12, w = 2345c^2
-# m = 10, w = c^3
-# m = 8, w = 123456c^3 
-# m = 6, w = c^5
-# m = 5, w = c^6
-# m = 4, w = (2314)^2 54234 56542 34576 54876 c^4
-# m = 3, w = c^10
-# m = 2, w = c^15
-
-####################
-# A worked example #
-####################
-
-# Example: determine O_ν for G = F4 and ν = 5/8.
-
-# In the list above, we have w = c23 = 123423 when G = F4 and m = 8.
-
-# Use the command count_points(coxgroup(:F,4),[1,2,3,4,2,3],5).
-
-# One visually inspects the table and finds O_ν = \widetilde{A_1} (this is hard, unless you have the poset memorised!).
-
-# To automatically find O_ν, instead use interval_reps(coxgroup(:F,4),[1,2,3,4,2,3],5). 

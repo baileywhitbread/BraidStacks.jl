@@ -1,156 +1,152 @@
 # BraidStacks.jl
 
-Tools to compute the number of points on braid stacks. We heavily rely on Jean Michel's port of the computer algebra system [Chevie](https://github.com/jmichel7/Chevie.jl). 
-
-Tools offered:
-
-- `count_points(G,vect,d)` 
-
-Compute points on the braid stack $`M(β,γ)`$ for all unipotent classes $`γ`$ in $`G`$. Here, $`β`$ is defined by `(G,vect,d)` in the following manner.
-
-Input: 
-	
-	- `G`: 	a finite reductive group object.
-	- `vect`: a vector of indices of braid group generators which defines the intermediate positive braid. 
-	- `d`: 	an integer exponent applied to the intermediate positive braid defined by vect to obtain the final positive braid.
-	
-Options:
-	
-	- `double_check`: if the braid is periodic, compute Hecke algebra character values directly and check agreement
-	- `output`: return the point counts as a vector of pairs (γ,|M(β,γ)^F|)
-	- `table`: print human-readable table of the point counts
-	
-For example, `count_points(G = coxgroup(:G,2), vect = [1,2], d = 3)` corresponds to the choice $`G=G_2`$ and $`β= (\widetilde{s_1s_2})^3`$.
-
-- `interval_reps(G,vect,d)` 
-
-Determines the unipotent classes $`γ_1`$ and $`γ_2`$ such that $`\{ γ \ \text{such that}\ M(β,γ)\ \text{is non-empty} \} = [γ_1, γ_2]`$ in the poset of unipotent orbits.
-
-- `count_points_unique(G,vect,d)` 
-
-Given the class $`γ_1`$ as in the previous function, return a vector containing the count $`|M(β,γ_1)^F|`$.
+Tools to compute the number of points on braid stacks. We heavily rely on Jean Michel's [Chevie](https://github.com/jmichel7/Chevie.jl). 
 
 
 ## Getting started
 
-Download and install [Julia](https://julialang.org/downloads/), and then install [Chevie](https://github.com/jmichel7/Chevie.jl). Next, place the braid_stacks.jl file in Julia's bin folder. In the REPL (Julia's interactive command-line), copy-paste and run the below:
+1. Download and install [Julia](https://julialang.org/downloads/). 
+2. Install [Chevie](https://github.com/jmichel7/Chevie.jl):
+
+```julia
+using Pkg; Pkg.add("Chevie")
+```
+3. Place the braid_stacks.jl file in Julia's bin folder. In Julia's command-line, run the below:
 
 ```julia
 include("braid_stacks.jl")
 ```
 
+3. (Alternative to step 3 above). Copy-paste the script into Julia's command line.
 
 
 ## Examples
-Additional detail is given as comments in the `braid_stacks.jl` file. 
+
+Goal: Use `braid_stacks.jl` to determine the number of points on the braid stack $M(β,γ)$ when $G = G_2$ and $β = (b_1b_2)^2$.  
+
+We make the function call
 
 ```julia
-julia> include("braid_stacks.jl")
-count_points_unique (generic function with 1 method)
-
-julia> G=coxgroup(:G,2)
-G₂
-
-julia> count_points(G,[1,2],3)
-The group is G = G₂
-The braid is β = b₁b₂b₁b₂b₁b₂
-┌──────┬──────────┐
-│γ ⊆ G │|M(β,γ)^F|│
-├──────┼──────────┤
-│1     │         0│
-│A₁    │         0│
-│Ã₁    │         1│
-│G₂(a₁)│        x²│
-│G₂    │        x⁴│
-└──────┴──────────┘
-
-julia> interval_reps(G,[1,2],3)
-The group is G = G₂
-The braid is β = b₁b₂b₁b₂b₁b₂
-┌──────┬──────────┐
-│γ ⊆ G │|M(β,γ)^F|│
-├──────┼──────────┤
-│1     │         0│
-│A₁    │         0│
-│Ã₁    │         1│
-│G₂(a₁)│        x²│
-│G₂    │        x⁴│
-└──────┴──────────┘
-1-element Vector{Tuple{UnipotentClass, UnipotentClass}}:
- (UnipotentClass(Ã₁), UnipotentClass(G₂))
-
-julia> count_points_unique(G,[1,2],3)
-1-element Vector{Any}:
- 1
+count_points(coxgroup(:G,2),[1,2],2)
 ```
 
-Below is an example for the slope $`\nu=d/m=5/14`$ and the group $`G=E_7`$. In this case, the braid is $`β= (\widetilde{s_4s_2\mathfrak{c}^{-1}})^5`$.
+This prints the following:
 
 ```julia
-julia> G=coxgroup(:E,7)
-E₇
+The group is G = G₂
+The braid is β = b₁b₂b₁b₂
+┌──────┬──────────┐
+│γ ⊆ G │|M(β,γ)^F|│
+├──────┼──────────┤
+│1     │         0│
+│A₁    │         0│
+│Ã₁    │         0│
+│G₂(a₁)│         1│
+│G₂    │        x²│
+└──────┴──────────┘
+```
 
-julia> count_points(G,[4,2,7,6,5,4,3,2,1],5)
-The group is G = E₇
-The braid is β = b₄b₂b₃b₅b₄b₃b₁b₆b₅b₄b₂b₃b₁b₄b₃b₅b₄b₂b₆b₅b₇b₆b₅b₄b₂b₃b₁b₄b₃b₅b₄b₂b₆b₅b₄b₃b₁b₇b₆b₅b₄b₂b₃b₄b₅
-┌─────────┬──────────────────┐
-│γ ⊆ G    │        |M(β,γ)^F|│
-├─────────┼──────────────────┤
-│E₇       │               x³⁸│
-│E₇(a₁)   │               x³⁶│
-│E₇(a₂)   │       x²⁶Φ₁Φ₂Φ₄Φ₈│
-│E₆       │           x²⁶Φ₄Φ₈│
-│E₇(a₃)   │       x²⁴Φ₁Φ₂Φ₄Φ₈│
-│E₆(a₁)   │    (x⁸+x⁴-1)x²⁰Φ₄│
-│D₆       │           x²⁴Φ₄Φ₈│
-│E₇(a₄)   │       x²⁰Φ₁Φ₂Φ₄Φ₈│
-│A₆       │           x²⁰Φ₄Φ₈│
-│D₅+A₁    │    (x⁶+x²-1)x¹⁸Φ₄│
-│D₆(a₁)   │    (x⁶+x²-1)x¹⁸Φ₄│
-│E₇(a₅)   │(x⁶+x²-1)x¹⁴Φ₁Φ₂Φ₄│
-│D₅       │    (x⁴+x²+2)x¹⁸Φ₄│
-│D₆(a₂)   │(x⁴+x²+2)x¹⁴Φ₁Φ₂Φ₄│
-│E₆(a₃)   │(x⁴+x²+2)x¹⁴Φ₁Φ₂Φ₄│
-│A₅′      │    (x⁴+x²+2)x¹⁴Φ₄│
-│D₅(a₁)+A₁│(x⁸+x⁴-2x²+1)x¹⁰Φ₄│
-│A₅+A₁    │    (x⁶+x²-1)x¹²Φ₄│
-│A₄+A₂    │    (x⁶+x²-1)x¹⁰Φ₄│
-│A₅″      │             x¹²Φ₄│
-│D₅(a₁)   │ (x⁶+x⁴+x²-2)x¹⁰Φ₄│
-│D₄+A₁    │    (x⁶+x⁴+x²-1)x⁸│
-│A₄+A₁    │(x⁶+2x⁴+2x²-1)x⁸Φ₄│
-│D₄       │                x⁸│
-│A₃+A₂+A₁ │      x⁴Φ₁Φ₂Φ₃Φ₄Φ₆│
-│A₄       │             x⁸Φ₄²│
-│A₃+A₂    │             x⁶Φ₄²│
-│D₄(a₁)+A₁│                x⁸│
-│D₄(a₁)   │          x²Φ₁Φ₂Φ₄│
-│A₃+2A₁   │              x⁴Φ₄│
-│(A₃+A₁)′ │              x²Φ₄│
-│(A₃+A₁)″ │                 0│
-│2A₂+A₁   │                Φ₄│
-│2A₂      │                 0│
-│A₃       │                 0│
-│A₂+3A₁   │                 0│
-│A₂+2A₁   │                 0│
-│A₂+A₁    │                 0│
-│4A₁      │                 0│
-│A₂       │                 0│
-│3A₁″     │                 0│
-│3A₁′     │                 0│
-│2A₁      │                 0│
-│A₁       │                 0│
-│1        │                 0│
-└─────────┴──────────────────┘
 
-julia> interval_reps(G,[4,2,7,6,5,4,3,2,1],5;table=false)
-1-element Vector{Tuple{UnipotentClass, UnipotentClass}}:
- (UnipotentClass(2A₂+A₁), UnipotentClass(E₇))
 
-julia> count_points_unique(G,[4,2,7,6,5,4,3,2,1],5)
-1-element Vector{Any}:
- q²+1
 
-julia>
+
+
+## A list of Weyl group elements
+
+To solve the isoclinic Deligne--Simpson problem, one studies the braid stack $M(β,γ)$. To do so, each slope $\nu$ gives rise to a braid $\beta_\nu$. As mentioned in the preprint, writing $\nu d/m$ in lowest terms with $m$ a regular number for $W$, the braid looks like $\widetilde{w}^d$ for an $m$-Springer element $w\in W$. (Here, $\widetilde{w}$ denotes the lift of $w$ to the positive braid $\widetilde{w}$ in the positive braid monoid.)
+
+Below we give lists of such w for each regular number $m$ of each exceptional group $G$. When $m$ is elliptic, it will be of minimal length in its conjugacy class. Therefore we can use Chevie commands such as `classinfo(coxgroup(:G,2))` to find $w$. Specifically, $w$ has order $m$ and length $|\Phi|/m$.
+
+When $m$ is not elliptic, $w$ is determined in the appendix of:  
+
+>Broué, Michel; Michel, Jean.  
+Sur certains éléments réguliers des groupes de Weyl et les variétés de Deligne-Lusztig associées.(French)  
+[Some regular elements of Weyl groups and the associated Deligne-Lusztig varieties]  
+Finite reductive groups (Luminy, 1994), 73–139. Progr. Math., 141  
+
+Here is the list:
+
+### G = G2
+
+| m | w |
+| --- | --- |
+| 6 | `12 = c` |
+| 3 | `c^2` |
+| 2 | `c^3` |
+
+### G = F4
+
+| m | w |
+| --- | --- |
+| 12 | `1234 = c` |
+| 8 | `c23` |
+| 6 | `c^2` |
+| 4 | `c^3` |
+| 3 | `c^4` |
+| 2 | `c^6` |
+
+### G = E6
+
+| m | w |
+| --- | --- |
+| 12 | `123456 = c` |
+| 9 | `13432456` |
+| 8 | `354163542 = x` |
+| 6 | `c^2` |
+| 4 | `x^2` |
+| 3 | `c^4` |
+| 2 | `x^4` |
+
+### G = E7
+
+| m | w |
+| --- | --- |
+| 18 | `1234567 = c` |
+| 14 | `42c^(-1)` |
+| 9 | `(1462357)^2 = y^2` |
+| 7 | `(134247654)^2` |
+| 6 | `c^3` |
+| 3 | `y^6` |
+| 2 | `c^9` |
+
+### G = E8
+
+| m | w |
+| --- | --- |
+| 30 | `12345678 = c` |
+| 24 | `34c` |
+| 20 | `4354c` |
+| 15 | `c^2` |
+| 12 | `2345c^2` |
+| 10 | `c^3` |
+| 8 | `123456c^3` |
+| 6 | `c^5` |
+| 5 | `c^6` |
+| 4 | `(2314)^2 54234 56542 34576 54876 c^4` |
+| 3 | `c^10` |
+| 2 | `c^15` |
+
+
+
+## Examples using the table
+
+Goal: Use `braid_stacks.jl` to determine $O_\nu$ for $G = F_4$ and $\nu = 5/8$.  
+
+In the list above, we have $w = c23 = 123423$ when $G = F_4$ and $m = 8$. 
+
+Therefore we make the function call
+
+```julia
+count_points(coxgroup(:F,4),[1,2,3,4,2,3],5)
+```
+
+One visually inspects the table and finds $O_\nu = \widetilde{A_1}$.  
+
+(This is often difficult to determine, unless you have the poset memorised!)  
+
+To automatically find $O_\nu$, instead use 
+
+```julia
+interval_reps(coxgroup(:F,4),[1,2,3,4,2,3],5)
 ```
 
