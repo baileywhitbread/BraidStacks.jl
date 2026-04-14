@@ -1,6 +1,10 @@
 # BraidStacks.jl
 
-Tools to compute the number of points on braid stacks. This was written for the paper [arXiv:2603.20499](https://arxiv.org/abs/2603.20499). We heavily rely on Jean Michel's [Chevie](https://github.com/jmichel7/Chevie.jl). 
+Tools to compute the number of points on braid stacks. 
+
+This was written for the paper [arXiv:2603.20499](https://arxiv.org/abs/2603.20499). 
+
+We heavily rely on Jean Michel's [Chevie](https://github.com/jmichel7/Chevie.jl). 
 
 
 ## Getting started
