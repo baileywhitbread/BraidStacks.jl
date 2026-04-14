@@ -130,6 +130,7 @@ Here is the list:
 
 
 
+
 ## Examples using the table
 
 Goal: Use `braid_stacks.jl` to compute the number of points on the braid stack $$M(\beta_\nu,\gamma)$$ for all unipotent classes $\gamma$ when $G = F_4$ and $\nu = 5/8$.  
