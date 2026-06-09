@@ -16,6 +16,22 @@ We heavily rely on Jean Michel's [Chevie](https://github.com/jmichel7/Chevie.jl)
 using Pkg; Pkg.add("Chevie")
 ```
 
+Make sure you are using Chevie v0.1.14 or greater. 
+
+Check:
+
+```julia
+using Pkg; Pkg.status("Chevie")
+```
+
+Upgrate:
+
+```julia
+using Pkg; Pkg.add(url="https://github.com/jmichel7/Chevie.jl.git#v0.1.14")
+```
+
+
+
 3. Copy-paste the script into Julia's command line.  
 Alternatively, place `braid_stacks.jl` in Julia's bin folder then run:
 
