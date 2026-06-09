@@ -87,7 +87,7 @@ Goal: Count points on $$M(\beta_\nu,\gamma)$$ for all unipotent classes $\gamma$
 
 In next section, you will find that $w = 142323$ is an $m$-Springer element when $G = F_4$ and $m = 8$.  
 
-This means $\beta_\nu = (142323)^5$. So we call the function
+This means we count points when $\beta_\nu = (142323)^5$. So we call the function
 
 ```julia
 count_points(coxgroup(:F,4),[1,4,2,3,2,3],5)
@@ -150,14 +150,12 @@ which returns the point-count in the row $\gamma = C_\nu = \widetilde{A_1}$.
 
 ## Tables of Springer elements
 
-For reference, we give a table of $m$-Springer elements $w$ for each regular number $m$ of each exceptional group $G$, using the appendix of:  
+For reference, we give tables of $m$-Springer elements $w$ for each regular number $m$ of each exceptional group $G$, using the appendix of:  
 
 >Broué, Michel; Michel, Jean.  
 Sur certains éléments réguliers des groupes de Weyl et les variétés de Deligne-Lusztig associées.(French)  
 [Some regular elements of Weyl groups and the associated Deligne-Lusztig varieties]  
 Finite reductive groups (Luminy, 1994), 73–139. Progr. Math., 141  
-
-Here is the list:  
 
 ```
 G = G_2
@@ -224,14 +222,16 @@ You can easily access these elements using the following function:
 ```julia
 springer_element(coxgroup(:E,7), 9)
 ```
+
 which returns 
 
 ```julia
 [1,3,4,2,4,7,6,5,4,1,3,4,2,4,7,6,5,4]
 ```
 
+This is a reduced word for a $9$-Springer element of the finite Weyl group of type $E_7$.
 
-The output of this function is intended to be fed directly into the previous three functions.
+The output of the function is intended to be fed directly into the previous three functions.
 
 For example:
 
