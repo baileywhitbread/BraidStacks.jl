@@ -32,8 +32,8 @@ using Pkg; Pkg.add(url="https://github.com/jmichel7/Chevie.jl.git#v0.1.14")
 
 
 
-3. Copy-paste the script into Julia's command line.  
-Alternatively, place `braid_stacks.jl` in Julia's bin folder then run:
+3. Copy-paste the contents of `braid_stacks.jl` into Julia's command line.  
+Alternatively, place the file `braid_stacks.jl` in Julia's bin folder, then run:
 
 ```julia
 include("braid_stacks.jl")
