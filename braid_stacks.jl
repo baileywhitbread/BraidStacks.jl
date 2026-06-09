@@ -129,6 +129,61 @@ end
 
 
 
+"""
+    regular_numbers(G)
+
+Returns the regular numbers for G = coxgroup(:letter,rank)
+
+"""
+function regular_numbers(G)
+
+    m = match(r"^coxgroup\(:([A-Za-z]),(\d+)\)$", string(G))
+    m === nothing && error("G must look like coxgroup(:A,3)")
+    letter, number = m.captures[1], parse(Int, m.captures[2])
+
+    divisors_ge2(n) = [d for d in 2:n if n % d == 0]
+
+    if letter == "G"
+        number == 2 || error("type G must be G2")
+        return [2,3,6]
+
+    elseif letter == "F"
+        number == 4 || error("type F must be F4")
+        return [2,3,4,6,8,12]
+
+    elseif letter == "E"
+        if number == 6
+            return [2,3,4,6,8,9,12]
+        elseif number == 7
+            return [2,3,6,7,9,14,18]
+        elseif number == 8
+            return [2,3,4,5,6,8,10,12,15,20,24,30]
+        else
+            error("type E must be E6, E7, or E8")
+        end
+
+    elseif letter == "A"
+        number >= 1 || error("type A must have n ≥ 1")
+        return sort(union(divisors_ge2(number), divisors_ge2(number + 1)))
+
+    elseif letter == "B"
+        number >= 2 || error("type B must have n ≥ 2")
+        return divisors_ge2(2 * number)
+
+    elseif letter == "C"
+        number >= 2 || error("type C must have n ≥ 2")
+        return divisors_ge2(2 * number)
+
+    elseif letter == "D"
+        number >= 4 || error("type D must have n ≥ 4")
+        return sort(union(divisors_ge2(number), divisors_ge2(2 * number - 2)))
+
+    else
+        error("letter must be A, B, C, D, E, F, or G")
+    end
+end
+
+
 
 
 
@@ -445,39 +500,12 @@ end
 """
     springer_element(G, m)
 
-Returns a reduced word for m-Springer element in the Weyl group of G = coxgroup(:letter,rank)
-using the appendix of:  
+    Returns a reduced word for m-Springer element in the Weyl group of G = coxgroup(:letter,rank)
+    using the appendix of:  
 
-Broué, Michel; Michel, Jean.  
-Sur certains éléments réguliers des groupes de Weyl et les variétés de Deligne-Lusztig associées.(French)  
-[Some regular elements of Weyl groups and the associated Deligne-Lusztig varieties]  
-Finite reductive groups (Luminy, 1994), 73–139. Progr. Math., 141  
-
-
-
-
-
-The output of this function is intended to be fed directly into the previous three functions, for example as follows:
-
-count_points(coxgroup(:E,7), springer_element(coxgroup(:E,7), 9), 4)
-
-interval_reps(coxgroup(:E,7), springer_element(coxgroup(:E,7), 9), 4)
-
-count_points_lower(coxgroup(:E,7), springer_element(coxgroup(:E,7), 9), 4)
-
-
-
-
-
-These replace hand-typing the long and error-prone function calls:
-
-count_points(coxgroup(:E,7), [1,3,4,2,4,7,6,5,4,1,3,4,2,4,7,6,5,4], 4)
-
-interval_reps(coxgroup(:E,7), [1,3,4,2,4,7,6,5,4,1,3,4,2,4,7,6,5,4], 4)
-
-count_points_lower(coxgroup(:E,7), [1,3,4,2,4,7,6,5,4,1,3,4,2,4,7,6,5,4], 4)
-
-
+    Broué, Michel; Michel, Jean.  
+    Sur certains éléments réguliers des groupes de Weyl et les variétés de Deligne-Lusztig associées.  
+    Some regular elements of Weyl groups and the associated Deligne-Lusztig varieties.
 """
 
 
@@ -502,7 +530,6 @@ function springer_element(G,m)
             return vcat(repeat(w, i)...)
         end
     end
-
 
     if letter == "B" || letter == "C"
         c = [1:2:rank; 2:2:rank]
@@ -588,3 +615,4 @@ function springer_element(G,m)
         end
     end
 end
+

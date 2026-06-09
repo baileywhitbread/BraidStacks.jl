@@ -77,12 +77,12 @@ We solve the isoclinic Deligne--Simpson problem by counting points on the braid 
 
 Goal: Count points on $$M(\beta_\nu,\gamma)$$ for all unipotent classes $\gamma$ when $G = F_4$ and $\nu = 5/8$.  
 
-In next section, you will find that $w = c23 = 123423$ is an $m$-Springer element when $G = F_4$ and $m = 8$.  
+In next section, you will find that $w = 142323$ is an $m$-Springer element when $G = F_4$ and $m = 8$.  
 
-This means $\beta_\nu = (c23)^5 = (123423)^5$. So we call the function
+This means $\beta_\nu = (142323)^5$. So we call the function
 
 ```julia
-count_points(coxgroup(:F,4),[1,2,3,4,2,3],5)
+count_points(coxgroup(:F,4),[1,4,2,3,2,3],5)
 ```
 
 This prints the following:
@@ -119,7 +119,7 @@ One visually inspects the table and finds $M(\beta_\nu,\gamma)\neq \emptyset$ if
 To automatically find the minimal unipotent class (if it exists!), instead use 
 
 ```julia
-interval_reps(coxgroup(:F,4),[1,2,3,4,2,3],5)
+interval_reps(coxgroup(:F,4),[1,4,2,3,2,3],5)
 ```
 
 This prints the table above and returns the tuple
@@ -131,7 +131,7 @@ This prints the table above and returns the tuple
 To count points at this lower representative $C_\nu = \widetilde{A_1}$, use
 
 ```julia
-count_points_lower(coxgroup(:F,4),[1,2,3,4,2,3],5)
+count_points_lower(coxgroup(:F,4),[1,4,2,3,2,3],5)
 ```
 
 which returns the point-count in the row $\gamma = C_\nu = \widetilde{A_1}$.
