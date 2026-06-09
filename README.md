@@ -73,7 +73,15 @@ The braid is β = b₁b₂b₁b₂
 
 ## Using the code for the isoclinic Deligne--Simpson problem
 
-We solve the isoclinic Deligne--Simpson problem by counting points on the braid stack $M(β,γ)$. Each slope $\nu$ gives rise to a braid $\beta_\nu$. Write $\nu = d/m$ in lowest terms with $m$ a regular number for $W$. Up to cyclic shift, the braid looks like $$\beta_\nu = \widetilde{w}^d$$ for an $m$-Springer element $w\in W$, where $\widetilde{w}$ is the positive lift of $w$ to the braid group.
+We solve the isoclinic Deligne--Simpson problem by counting points on the braid stack $M(β,γ)$. 
+
+Each slope $\nu$ gives rise to a braid $\beta_\nu$. 
+
+Write $\nu = d/m$ in lowest terms with $m$ a regular number for $W$. 
+
+Up to cyclic shift, the braid looks like $$\beta_\nu = \widetilde{w}^d$$.
+
+Here, $w\in W$ is an $m$-Springer element and $\widetilde{w}$ is the positive lift to the braid group.
 
 Goal: Count points on $$M(\beta_\nu,\gamma)$$ for all unipotent classes $\gamma$ when $G = F_4$ and $\nu = 5/8$.  
 
@@ -223,7 +231,9 @@ which returns
 ```
 
 
-The output of this function is intended to be fed directly into the previous three functions, for example as follows:
+The output of this function is intended to be fed directly into the previous three functions.
+
+For example:
 
 ```julia
 count_points(coxgroup(:E,7), springer_element(coxgroup(:E,7), 9), 4)
