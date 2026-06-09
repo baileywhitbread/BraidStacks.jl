@@ -89,7 +89,7 @@ This prints the following:
 
 ```julia
 The group is G = F₄
-The braid is β = b₁b₂b₁b₃b₂b₁b₃b₂b₃b₄b₃b₂b₁b₃b₂b₃b₄b₃b₂b₁b₃b₂b₃b₄b₁b₂b₃b₂b₄b₃
+The braid is β = b₁b₂b₁b₃b₂b₁b₃b₂b₃b₄b₃b₂b₁b₃b₂b₃b₄b₃b₂b₁b₃b₂b₃b₄b₁b₂b₄b₃b₂b₃
 ┌──────┬───────────────┐
 │γ ⊆ G │     |M(β,γ)^F|│
 ├──────┼───────────────┤
