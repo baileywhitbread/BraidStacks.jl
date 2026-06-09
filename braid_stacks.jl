@@ -1,12 +1,12 @@
 using Chevie
 
 # In this file, you will find:
-# 1. Some functions for convenience
+# 1. Some functions for convenience (not for user)
 # 2. Functions for the user
 
-#####################################
-# 1. Some functions for convenience #
-#####################################
+####################################################
+# 1. Some functions for convenience (not for user) #
+####################################################
 
 """
     subscript(n::Integer)
@@ -435,3 +435,156 @@ function count_points_lower(G,vect,d)
 	end
 end
 
+
+
+
+
+
+
+
+"""
+    springer_element(G, m)
+
+Returns a reduced word for m-Springer element in the Weyl group of G = coxgroup(:letter,rank)
+using the appendix of:  
+
+Broué, Michel; Michel, Jean.  
+Sur certains éléments réguliers des groupes de Weyl et les variétés de Deligne-Lusztig associées.(French)  
+[Some regular elements of Weyl groups and the associated Deligne-Lusztig varieties]  
+Finite reductive groups (Luminy, 1994), 73–139. Progr. Math., 141  
+
+
+
+
+
+The output of this function is intended to be fed directly into the previous three functions, for example as follows:
+
+count_points(coxgroup(:E,7), springer_element(coxgroup(:E,7), 9), 4)
+
+interval_reps(coxgroup(:E,7), springer_element(coxgroup(:E,7), 9), 4)
+
+count_points_lower(coxgroup(:E,7), springer_element(coxgroup(:E,7), 9), 4)
+
+
+
+
+
+These replace hand-typing the long and error-prone function calls:
+
+count_points(coxgroup(:E,7), [1,3,4,2,4,7,6,5,4,1,3,4,2,4,7,6,5,4], 4)
+
+interval_reps(coxgroup(:E,7), [1,3,4,2,4,7,6,5,4,1,3,4,2,4,7,6,5,4], 4)
+
+count_points_lower(coxgroup(:E,7), [1,3,4,2,4,7,6,5,4,1,3,4,2,4,7,6,5,4], 4)
+
+
+"""
+
+
+
+
+function springer_element(G,m)
+    m in regular_numbers(G) || error("m must be a regular number for G")
+    
+    dummy = match(r"^coxgroup\(:([A-Za-z]),(\d+)\)$", string(G))
+    dummy === nothing && error("G must look like coxgroup(:A,3)")
+    letter, rank = dummy.captures[1], parse(Int, dummy.captures[2])
+
+    if letter == "A"
+        floor = fld(rank, 2)
+        c = [1:floor; rank:-1:floor+1]
+        w = [1:floor; rank:-1:floor]
+        if (rank + 1) % m == 0
+            i = div(rank + 1, m)
+            return vcat(repeat(c, i)...)
+        elseif rank % m == 0
+            i = div(rank, m)
+            return vcat(repeat(w, i)...)
+        end
+    end
+
+
+    if letter == "B" || letter == "C"
+        c = [1:2:rank; 2:2:rank]
+        if (2 * rank) % m == 0
+            i = div(2 * rank, m)
+            return vcat(repeat(c, i)...)
+        end
+    end
+
+    if letter == "D"
+        c = [3:2:rank; 1; 2:2:rank]
+        w = [1:rank; 2:(rank-1)]
+        if (2 * rank - 2) % m == 0
+            i = div(2 * rank - 2, m)
+            return vcat(repeat(c, i)...)
+        elseif rank % m == 0
+            i = div(rank, m)
+            return vcat(repeat(w, i)...)
+        end
+    end
+
+    if letter == "G"
+        c = [1,2]
+        if 6 % m == 0
+            i = div(6,m)
+            return vcat(repeat(c, i)...)
+        end
+    end
+
+    if letter == "F"
+        c = [1,3,2,4]
+        w = [1,4,2,3,2,3]
+        if 12 % m == 0
+            i = div(12, m)
+            return vcat(repeat(c, i)...)
+        elseif 8 % m == 0
+            i = div(8, m)
+            return vcat(repeat(w, i)...)  
+        end
+    end
+
+    if letter == "E" && rank == 6
+        c = [1,4,6,2,3,5]
+        w = [1,3,4,2,4,6,5,4]
+        w_prime = [3,5,4,1,6,3,5,4,2]
+        if 12 % m == 0
+            i = div(12, m)
+            return vcat(repeat(c, i)...)
+        elseif 9 % m == 0
+            i = div(9, m)
+            return vcat(repeat(w, i)...)
+        elseif 8 % m == 0
+            i = div(8, m)
+            return vcat(repeat(w_prime, i)...)
+        end
+    end
+
+    if letter == "E" && rank == 7
+        c = [1,4,6,2,3,5,7]
+        w = [1,3,4,2,4,7,6,5,4]
+        if 18 % m == 0
+            i = div(18, m)
+            return vcat(repeat(c, i)...)
+        elseif 14 % m == 0
+            i = div(14, m)
+            return vcat(repeat(w, i)...)
+        end 
+    end
+
+    if letter == "E" && rank == 8
+        c = [1,4,6,8,2,3,5,7]
+        w = [1,3,4,2,4,8,7,6,5,4]
+        w_prime = [8,7,6,5,4,2,3,1,4,3,5,4]
+        if 30 % m == 0
+            i = div(30,m)
+            return vcat(repeat(c,i)...)
+        elseif 24 % m == 0
+            i = div(24,m)
+            return vcat(repeat(w,i)...)
+        elseif 20 % m == 0
+            i = div(20,m)
+            return vcat(repeat(w_prime,i)...)
+        end
+    end
+end
