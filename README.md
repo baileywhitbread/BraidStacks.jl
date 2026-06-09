@@ -24,7 +24,7 @@ Check:
 using Pkg; Pkg.status("Chevie")
 ```
 
-Upgrate:
+Upgrade:
 
 ```julia
 using Pkg; Pkg.add(url="https://github.com/jmichel7/Chevie.jl.git#v0.1.14")
