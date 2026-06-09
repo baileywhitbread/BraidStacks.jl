@@ -233,7 +233,7 @@ This is a reduced word for a $9$-Springer element of the finite Weyl group of ty
 
 The output of the function is intended to be fed directly into the previous three functions.
 
-For example:
+For example, if we are interested in the slope $\nu=4/9$ in type $E_7$, we would type:
 
 ```julia
 count_points(coxgroup(:E,7), springer_element(coxgroup(:E,7), 9), 4)
