@@ -4,6 +4,8 @@ Tools to compute the number of points on braid stacks and address the isoclinic 
 This was written for the paper [arXiv:2603.20499](https://arxiv.org/abs/2603.20499). 
 We heavily rely on Jean Michel's port of the computer algebra system [Chevie.jl](https://github.com/jmichel7/Chevie.jl).
 
+![](https://github.com/baileywhitbread/BraidStacks.jl/blob/main/BraidStacksAnimation.gif)
+
 ## Getting started
 
 1. Download and install [Julia](https://julialang.org/downloads/). 
