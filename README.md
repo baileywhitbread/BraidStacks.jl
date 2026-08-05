@@ -257,11 +257,16 @@ count_points_lower(coxgroup(:E,7), [1,4,6,2,3,5,7,1,4,6,2,3,5,7], 4)
 
 ## Proofs regarding the isoclinic Deligne--Simpson problem
 
-The script `braid_stacks_proofs.jl` contains proofs of:
+The script `braid_stacks_proofs.jl` contains proofs for theorems in:
+>Kamgarpour, Masoud; Whitbread, Bailey.  
+The isoclinic Deligne--Simpson problem and rigid connections
+https://arxiv.org/pdf/2603.20499 
+
+Namely, the script proves:
 1. The correctness of Table 1 in Theorem 1.
 2. The physical rigidity of the connections in Theorem 2 (a).
 
-Running the script prints
+More specifically, running the script prints 
 
 ```julia
 G = G₂, ν = 1//2: C_ν = UnipotentClass(Ã₁)
