@@ -259,7 +259,7 @@ count_points_lower(coxgroup(:E,7), [1,4,6,2,3,5,7,1,4,6,2,3,5,7], 4)
 
 The script `braid_stacks_proofs.jl` contains proofs for theorems in:
 >Kamgarpour, Masoud; Whitbread, Bailey.  
-The isoclinic Deligne--Simpson problem and rigid connections
+The isoclinic Deligne--Simpson problem and rigid connections  
 https://arxiv.org/pdf/2603.20499 
 
 Namely, the script proves:
