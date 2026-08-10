@@ -317,10 +317,6 @@ function interval_reps(G,vect,d;table=true)
 	class_count_pairs = count_points(G,vect,d;output=true,table=table)
 	reps = _interval_reps(P,class_count_pairs)
 
-	if isnothing(reps)
-		println("The unipotent classes with non-zero point counts do not form an interval")
-	end
-
 	return reps
 end
 
